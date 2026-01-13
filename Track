@@ -1,0 +1,91 @@
+src/
+├─ app/                          ← Pages & Routes فقط
+│   ├─ layout.tsx
+│   ├─ providers.tsx
+│   ├─ page.tsx                  ← Home
+│   │
+│   ├─ auth/
+│   │   ├─ login/page.tsx
+│   │   ├─ register/page.tsx
+│   │   └─ reset-password/page.tsx
+│   │
+│   ├─ products/
+│   │   ├─ page.tsx              ← Products list
+│   │   └─ [id]/page.tsx         ← Product details
+│   │
+│   ├─ cart/page.tsx
+│   ├─ checkout/page.tsx
+│   ├─ profile/page.tsx
+│   │
+│   ├─ loading.tsx
+│   ├─ error.tsx
+│   └─ not-found.tsx
+│
+├─ features/                     ← 💥 قلب المشروع الحقيقي
+│   │
+│   ├─ auth/
+│   │   ├─ api/
+│   │   │   ├─ signin.ts
+│   │   │   ├─ signup.ts
+│   │   │   ├─ forgotPassword.ts
+│   │   │   ├─ verifyResetCode.ts
+│   │   │   ├─ resetPassword.ts
+│   │   │   ├─ changePassword.ts
+│   │   │   └─ updateProfile.ts
+│   │   │
+│   │   ├─ hooks/
+│   │   │   ├─ useLogin.ts
+│   │   │   ├─ useRegister.ts
+│   │   │   └─ useAuth.ts
+│   │   │
+│   │   ├─ components/
+│   │   │   ├─ LoginForm.tsx
+│   │   │   └─ RegisterForm.tsx
+│   │   │
+│   │   └─ types.ts
+│   │
+│   ├─ products/
+│   │   ├─ api/
+│   │   │   ├─ getProducts.ts
+│   │   │   └─ getProductById.ts
+│   │   │
+│   │   ├─ hooks/
+│   │   │   └─ useProducts.ts
+│   │   │
+│   │   ├─ components/
+│   │   │   ├─ ProductCard.tsx
+│   │   │   └─ ProductGallery.tsx
+│   │   │
+│   │   └─ types.ts
+│   │
+│   ├─ cart/
+│   │   ├─ store.ts              ← Zustand / Context
+│   │   ├─ hooks.ts
+│   │   ├─ components/
+│   │   │   └─ CartItem.tsx
+│   │   └─ types.ts
+│   │
+│   └─ orders/
+│       ├─ api/
+│       ├─ hooks/
+│       ├─ components/
+│       └─ types.ts
+│
+├─ components/                   ← Shared UI فقط
+│   ├─ Navbar.tsx
+│   ├─ Footer.tsx
+│   ├─ Button.tsx
+│   └─ Modal.tsx
+│
+├─ lib/                           ← أدوات عامة
+│   ├─ fetcher.ts
+│   ├─ constants.ts
+│   ├─ cookies.ts
+│   └─ utils.ts
+│
+├─ types/                         ← Types عامة
+│   └─ api.ts
+│
+├─ middleware.ts                 ← Auth protection
+└─ styles/
+    └─ globals.css
