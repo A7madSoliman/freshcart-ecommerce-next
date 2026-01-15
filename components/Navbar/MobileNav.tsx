@@ -1,7 +1,6 @@
 import { navlinks } from "@/lib/constant";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 type Props = {
   showNav: boolean;
