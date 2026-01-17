@@ -40,7 +40,6 @@ export default function Register() {
       setToken(res.token);
       toast.success("Account created successfully");
       router.push("/login");
-      console.log(data);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -207,11 +206,7 @@ export default function Register() {
             disabled={isSubmitting}
             className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-950 text-white py-3 rounded-lg transition hover:bg-blue-900 disabled:opacity-60 cursor-pointer"
           >
-            {isSubmitting ? (
-              <Loader2 className="animate-spin w-6 h-6" />
-            ) : (
-              "Register"
-            )}
+            {isSubmitting ? <Loader2 className="animate-spin " /> : "Register"}
           </button>
         </form>
         <div className="mt-6 text-center pt-4 border-t border-blue-950">

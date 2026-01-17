@@ -15,7 +15,7 @@ export async function apiFetch<T>(
   const data = await res.json();
 
   if (!res.ok) {
-    throw data;
+    throw new Error(data?.message || "Request failed");
   }
 
   return data;
