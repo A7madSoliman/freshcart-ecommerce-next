@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+// Sign up Schema
 export const signupSchema = z
   .object({
     name: z.string().trim().min(3, "Name must be at least 3 characters"),
@@ -17,4 +17,30 @@ export const signupSchema = z
     path: ["rePassword"],
   });
 
+// Sign in Schema
+export const signinSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+// Forget Schema
+export const forgetSchema = z.object({
+  email: z.string().email(),
+});
+
+// Verify Code
+export const verifyCodeSchema = z.object({
+  resetCode: z.string().length(6),
+});
+
+// Reset Password
+export const resetPasswordSchema = z.object({
+  email: z.string().email(),
+  newPassword: z.string().min(6),
+});
+
 export type SignupFormData = z.infer<typeof signupSchema>;
+export type SigninFormData = z.infer<typeof signinSchema>;
+export type ForgetFormData = z.infer<typeof forgetSchema>;
+export type VerifyFormData = z.infer<typeof verifyCodeSchema>;
+export type ResetFormData = z.infer<typeof resetPasswordSchema>;

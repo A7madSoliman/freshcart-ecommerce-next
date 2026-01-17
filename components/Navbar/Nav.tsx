@@ -82,12 +82,13 @@ export default function Nav({ openNav }: Props) {
               0
             </span>
           </Link>
-          <button
+          <Link
+            href="/login"
             className="md:px-8 md:py-2.5 px-6 py-2 text-black text-base bg-white
               hover:bg-gray-300 transition-all duration-200 rounded-lg"
           >
             LOG IN
-          </button>
+          </Link>
 
           {/* burger menu */}
           <Menu

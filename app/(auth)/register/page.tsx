@@ -1,13 +1,24 @@
 "use client";
 
-import { ErrorMessage } from "@/lib/helper/errormessage";
+import { signupApi } from "@/lib/api/auth.api";
+import { setToken } from "@/lib/auth/token";
 import { SignupFormData, signupSchema } from "@/lib/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Key, Lock, Mail, Phone, User } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Key,
+  Loader2,
+  Lock,
+  Mail,
+  Phone,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function Register() {
   const router = useRouter();
@@ -24,18 +35,29 @@ export default function Register() {
   });
 
   const onSubmit = async (data: SignupFormData) => {
-    console.log(data);
+    try {
+      const res = await signupApi(data);
+      setToken(res.token);
+      toast.success("Account created successfully");
+      router.push("/login");
+      console.log(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong ");
+      }
+    }
   };
   return (
-    <section className="max-w-[80%] mt-[13vh] mx-auto mb-4">
-      <div className="rounded-lg p-8 mt-10 border border-blue-950 shadow-lg">
-        <h2 className="text-2xl font-bold text-blue-950 mb-6 text-center">
+    <section className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md sm:max-w-lg bg-white rounded-xl p-6 sm:p-8 border border-blue-900 shadow-lg">
+        <h2 className="text-xl sm:text-2xl font-bold text-blue-950 mb-6 text-center">
           REGISTER NOW
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Name */}
           <div>
-            {/* <label className="block mb-2 font-medium text-gray-600">Name</label> */}
             <div className="relative">
               <User
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500"
@@ -48,56 +70,72 @@ export default function Register() {
                 type="text"
                 {...register("name")}
               />
-              <ErrorMessage
-                show={touchedFields.name}
-                message={errors.name?.message}
-              />
+            </div>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.name && errors.name
+                  ? "max-h-20 opacity-100 mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-red-500 text-sm">{errors.name?.message}</p>
             </div>
           </div>
 
           {/* Email */}
-          <div className="mt-4">
-            <label className="block mb-2 font-medium text-gray-600">
-              Email
-            </label>
-            <div className="relative">
+          <div>
+            <div className="relative mt-4">
               <Mail
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500"
                 size={18}
               />
               <input
                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-950 outline-none"
-                name="email"
+                placeholder="Email"
                 id="email"
                 type="email"
+                {...register("email")}
               />
+            </div>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.email && errors.email
+                  ? "max-h-20 opacity-100 mt-1"
+                  : " max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-red-500 text-sm">{errors.email?.message}</p>
             </div>
           </div>
 
           {/* Phone */}
-          <div className="mt-4">
-            <label className="block mb-2 font-medium text-gray-600">
-              Phone
-            </label>
-            <div className="relative">
+          <div>
+            <div className="relative mt-4">
               <Phone
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500"
                 size={18}
               />
               <input
                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-950 outline-none"
-                name="phone"
+                placeholder="Phone"
                 id="phone"
                 type="tel"
+                {...register("phone")}
               />
+            </div>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.phone && errors.phone
+                  ? "max-h-20 opacity-100 mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-red-500 text-sm">{errors.phone?.message}</p>
             </div>
           </div>
 
           {/* Password */}
           <div className="mt-4">
-            <label className="block mb-2 font-medium text-gray-600">
-              Password
-            </label>
             <div className="relative">
               <Lock
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500"
@@ -105,8 +143,9 @@ export default function Register() {
               />
               <input
                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-950 outline-none"
-                name="password"
+                placeholder="Password"
                 id="password"
+                {...register("password")}
                 type={showPassword ? "text" : "password"}
               />
               <button
@@ -117,13 +156,19 @@ export default function Register() {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.password && errors.password
+                  ? "max-h-20 opacity-100  mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-red-500 text-sm">{errors.password?.message}</p>
+            </div>
           </div>
 
           {/* Repassword */}
           <div className="mt-4">
-            <label className="block mb-2 font-medium text-gray-600">
-              Confirm Password
-            </label>
             <div className="relative">
               <Key
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500"
@@ -131,9 +176,10 @@ export default function Register() {
               />
               <input
                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-950 outline-none"
-                name="rePassword"
+                placeholder="Confirm Password"
                 id="rePassword"
-                type={showConfirmPassword ? " text" : "password"}
+                type={showConfirmPassword ? "text" : "password"}
+                {...register("rePassword")}
               />
               <button
                 onClick={() => setShowConfirmPassowrd(!showConfirmPassword)}
@@ -143,22 +189,36 @@ export default function Register() {
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.rePassword && errors.rePassword
+                  ? " max-h-20 opacity-100 mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-red-500 text-sm">
+                {errors.rePassword?.message}
+              </p>
+            </div>
           </div>
 
           {/* Submit */}
-
           <button
             disabled={isSubmitting}
-            className="mt-6 w-full flex items-center justify-center  bg-blue-950 text-white py-3 rounded-lg cursor-pointer"
+            className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-950 text-white py-3 rounded-lg transition hover:bg-blue-900 disabled:opacity-60 cursor-pointer"
           >
-            Register
+            {isSubmitting ? (
+              <Loader2 className="animate-spin w-6 h-6" />
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
-        <div className="mt-8 text-center pt-6 border-t border-blue-950 ">
-          <p className="text-blue-950">
+        <div className="mt-6 text-center pt-4 border-t border-blue-950">
+          <p className="text-sm sm:text-base text-blue-950">
             Do you have an account?{" "}
             <Link
-              className="text-blue-600 font-semibold  cursor-pointer"
+              className="text-blue-600 font-semibold hover:underline"
               href="/login"
             >
               Login

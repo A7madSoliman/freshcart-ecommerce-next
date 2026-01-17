@@ -1,27 +1,17 @@
-export interface SignupInput {
-  name: string;
-  email: string;
-  password: string;
-  rePassword: string;
-  phone: number;
-}
+import {
+  ForgetFormData,
+  ResetFormData,
+  SigninFormData,
+  SignupFormData,
+  VerifyFormData,
+} from "@/lib/schemas/auth.schema";
 
+export type SignupInput = SignupFormData;
+export type LoginInput = SigninFormData;
+export type ForgetPasswordInput = ForgetFormData;
+export type VerifyCodeInput = VerifyFormData;
+export type ResetPasswordInput = ResetFormData;
 export interface AuthResponse {
   message: string;
   token: string;
 }
-
-// {
-//   "name": "Ahmed",
-//   "email": "test@test.com",
-//   "password": "123456",
-//   "rePassword": "123456",
-//   "phone": "01000000000"
-// }
-// Response
-// json
-// Copy code
-// {
-//   "message": "success",
-//   "token": "JWT_TOKEN"
-// }
