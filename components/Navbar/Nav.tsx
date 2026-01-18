@@ -1,7 +1,8 @@
 "use client";
 
+import { useAuth } from "@/lib/auth/AuthContext";
 import { navlinks } from "@/lib/constant";
-import { Menu, ShoppingCart } from "lucide-react";
+import { LogOut, Menu, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ type Props = {
 
 export default function Nav({ openNav }: Props) {
   const pathname = usePathname();
+  const { isLoggedIn, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -82,15 +84,23 @@ export default function Nav({ openNav }: Props) {
               0
             </span>
           </Link>
-          <Link
-            href="/login"
-            className="md:px-8 md:py-2.5 px-6 py-2 text-black text-base bg-white
-              hover:bg-gray-300 transition-all duration-200 rounded-lg"
-          >
-            LOG IN
-          </Link>
 
-          {/* burger menu */}
+          {!isLoggedIn ? (
+            <Link
+              href="/login"
+              className="md:px-8 md:py-2.5 px-6 py-2 text-black bg-white rounded-lg hover:bg-gray-300 transition"
+            >
+              LOG IN
+            </Link>
+          ) : (
+            <button
+              onClick={logout}
+              className="md:px-8 md:py-2.5 px-6 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition cursor-pointer"
+            >
+              <LogOut />
+            </button>
+          )}
+
           <Menu
             onClick={openNav}
             className="w-10 h-10 text-white lg:hidden cursor-pointer"
