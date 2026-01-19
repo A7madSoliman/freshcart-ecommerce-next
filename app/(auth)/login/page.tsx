@@ -44,9 +44,9 @@ export default function Login() {
     }
   };
 
-  // const searchParams = useSearchParams();
-  // const redirectTo = searchParams.get("redirect") || "/";
-  // router.push(redirectTo);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+  router.push(redirectTo);
 
   return (
     <section className="min-h-screen flex items-center justify-center px-4">
