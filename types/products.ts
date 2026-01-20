@@ -1,3 +1,4 @@
+// API SHAPE
 export interface ApiProduct {
   _id: string;
   title: string;
@@ -12,17 +13,26 @@ export interface ApiProduct {
   };
 }
 
+// API RESPONSE
 export interface ProductsResponse {
   results: number;
   data: ApiProduct[];
 }
 
+// UI SHAPE (ProductCard)
 export interface ProductCardData {
   id: string;
+  title: string;
   image: string;
   category: string;
-  name: string;
-  price: number;
-  priceAfterDiscount?: number;
-  ratingsAverage: number;
+  price: number | null;
+  originalPrice?: number;
+  discount?: number;
+  rating: number;
+  reviews?: number;
+}
+
+// Props
+export interface InitialProductsProps {
+  initialProducts: ProductCardData[];
 }

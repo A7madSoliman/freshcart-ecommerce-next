@@ -1,1 +1,124 @@
 @import "tailwindcss";
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background-color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-both;
+}
+
+/* Loading Animation Styles */
+.preloader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart {
+  display: block;
+  margin: 0 auto;
+  width: 128px;
+  height: 128px;
+}
+
+.cart__lines {
+  color: #1447e6;
+}
+
+.cart__top {
+  animation: cartTop 2s ease-in-out infinite;
+}
+
+.cart__wheel1,
+.cart__wheel2 {
+  animation: cartWheel 2s ease-in-out infinite;
+  transform-origin: 43px 111px;
+}
+
+.cart__wheel2 {
+  transform-origin: 102px 111px;
+}
+
+.cart__wheel-stroke {
+  animation: cartWheelStroke 2s ease-in-out infinite;
+}
+
+.preloader__msg {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.preloader__msg--last {
+  animation: fadeInLast 2s ease-in-out 3s forwards;
+  opacity: 0;
+}
+
+/* Animations */
+@keyframes cartTop {
+  0%,
+  10% {
+    stroke-dashoffset: -338;
+  }
+  50%,
+  60% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 338;
+  }
+}
+
+@keyframes cartWheel {
+  0%,
+  10% {
+    transform: rotate(-90deg);
+  }
+  50%,
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes cartWheelStroke {
+  0%,
+  10% {
+    stroke-dashoffset: 81.68;
+  }
+  50%,
+  60% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -81.68;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInLast {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
