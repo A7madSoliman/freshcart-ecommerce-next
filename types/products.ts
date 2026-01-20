@@ -36,3 +36,17 @@ export interface ProductCardData {
 export interface InitialProductsProps {
   initialProducts: ProductCardData[];
 }
+
+export interface ApiProductDetails {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  priceAfterDiscount?: number;
+  ratingsAverage: number;
+  images: string[];
+  imageCover: string;
+  category: {
+    name: string;
+  };
+}

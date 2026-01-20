@@ -2,12 +2,11 @@
 
 import { signinApi } from "@/lib/api/auth.api";
 import { useAuth } from "@/lib/auth/AuthContext";
-import { setToken } from "@/lib/auth/token";
 import { SigninFormData, signinSchema } from "@/lib/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -44,9 +43,9 @@ export default function Login() {
     }
   };
 
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/";
-  router.push(redirectTo);
+  // const searchParams = useSearchParams();
+  // const redirectTo = searchParams.get("redirect") || "/";
+  // router.push(redirectTo);
 
   return (
     <section className="min-h-screen flex items-center justify-center px-4">

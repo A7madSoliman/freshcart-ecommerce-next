@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { ProductCardData } from "@/types/products";
 import { formatEGP } from "@/lib/helper/formatCurrency";
+import Link from "next/link";
 
 interface Props {
   product: ProductCardData;
@@ -30,6 +31,7 @@ export default function ProductCard({ product }: Props) {
       {/* Top Action Buttons */}
       <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
         {/* Wishlist Button */}
+
         <button
           onClick={() => setIsWishlisted(!isWishlisted)}
           className={`p-2 rounded-full bg-white/80 backdrop-blur shadow transition-all hover:scale-110 ${
@@ -47,31 +49,33 @@ export default function ProductCard({ product }: Props) {
         </button>
 
         {/* View Product Button */}
-        <button
-          onClick={() => console.log("View product:", product.id)}
-          className="p-2 rounded-full bg-white/80 backdrop-blur shadow text-gray-600 hover:text-blue-500 transition-all hover:scale-110"
-          aria-label="View Product"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <Link href={`/product-details/${product.id}`}>
+          <button
+            onClick={() => console.log("View product:", product.id)}
+            className="p-2 rounded-full bg-white/80 backdrop-blur shadow text-gray-600 hover:text-blue-500 transition-all hover:scale-110"
+            aria-label="View Product"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-            />
-          </svg>
-        </button>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              />
+            </svg>
+          </button>
+        </Link>
       </div>
 
       {/* Product Image */}

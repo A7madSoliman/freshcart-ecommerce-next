@@ -1,3 +1,3 @@
-export default function products() {
+export default function ProductDetailsPage() {
   return <div className="pt-[12vh]">products</div>;
 }

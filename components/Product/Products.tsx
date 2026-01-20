@@ -1,7 +1,6 @@
-// components/Product/Products.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ApiProduct,
   ProductCardData,
@@ -17,15 +16,23 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch products from API and map to UI shape
+  // Prevent double fetch in React Strict Mode (dev only)
+  const didFetch = useRef(false);
+
   const fetchProducts = async () => {
+    if (loading || !hasMore) return;
+
     try {
       setLoading(true);
       setError(null);
 
-      const response: ProductsResponse = await getProducts({ page, limit: 15 });
+      const currentPage = page;
 
-      // Map API products to UI shape
+      const response: ProductsResponse = await getProducts({
+        page: currentPage,
+        limit: 15,
+      });
+
       const newProducts: ProductCardData[] = response.data.map(
         (product: ApiProduct) => ({
           id: product._id,
@@ -35,27 +42,34 @@ export default function Products() {
           price: product.priceAfterDiscount || product.price,
           originalPrice: product.priceAfterDiscount ? product.price : undefined,
           rating: product.ratingsAverage,
-          reviews: Math.floor(Math.random() * 200) + 1, // temporary mock for reviews
+          reviews: Math.floor(Math.random() * 200) + 1, // mock
         }),
       );
 
-      setProducts((prev) => [...prev, ...newProducts]);
+      // ✅ Merge with deduplication by id
+      setProducts((prev) => {
+        const merged = [...prev, ...newProducts];
+        return Array.from(new Map(merged.map((p) => [p.id, p])).values());
+      });
 
-      // Check if there are more products
-      if (newProducts.length < 15) setHasMore(false);
+      if (newProducts.length < 15) {
+        setHasMore(false);
+      }
 
       setPage((prev) => prev + 1);
     } catch (err) {
-      setError("Failed to load products. Please try again.");
       console.error(err);
+      setError("Failed to load products. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Fetch first page on mount
+  // Fetch first page once
   useEffect(() => {
-    if (page === 1) fetchProducts();
+    if (didFetch.current) return;
+    didFetch.current = true;
+    fetchProducts();
   }, []);
 
   if (error) {
@@ -101,12 +115,12 @@ export default function Products() {
                     r="10"
                     stroke="currentColor"
                     strokeWidth="4"
-                  ></circle>
+                  />
                   <path
                     className="opacity-75"
                     fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
+                  />
                 </svg>
                 Loading...
               </span>
@@ -117,7 +131,7 @@ export default function Products() {
         </div>
       )}
 
-      {/* No More Products Message */}
+      {/* No More Products */}
       {!hasMore && products.length > 0 && (
         <div className="col-span-full text-center py-4 text-gray-500">
           No more products
