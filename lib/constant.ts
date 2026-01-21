@@ -6,7 +6,7 @@ export const navlinks = [
   },
   {
     id: 2,
-    url: "/products",
+    url: "/all-products",
     label: "Products",
   },
   {

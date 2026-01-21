@@ -9,7 +9,11 @@ import {
 import ProductCard from "./ProductCard";
 import { getProducts } from "@/lib/api/products.api";
 
-export default function Products() {
+interface ProductsProps {
+  categoryId?: string;
+}
+
+export default function Products({ categoryId }: ProductsProps) {
   const [products, setProducts] = useState<ProductCardData[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -31,6 +35,7 @@ export default function Products() {
       const response: ProductsResponse = await getProducts({
         page: currentPage,
         limit: 15,
+        categoryId,
       });
 
       const newProducts: ProductCardData[] = response.data.map(
