@@ -24,7 +24,7 @@ export default function ProductsClient({
   }, [products, query]);
 
   return (
-    <section className="max-w-6xl mx-auto pt-28 py-8 px-4">
+    <section className="max-w-6xl mx-auto py-8 px-4">
       {/* Search */}
       <div className="flex flex-col items-center mb-10">
         <input

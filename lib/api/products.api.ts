@@ -1,27 +1,25 @@
 import { ApiProductDetails, ProductsResponse } from "@/types/products";
 import { apiFetch } from "../fetcher";
 
-interface GetProductsParams {
+export const getProducts = ({
+  page = 1,
+  limit = 16,
+  categoryId,
+  keyword,
+}: {
   page?: number;
   limit?: number;
   categoryId?: string;
-}
+  keyword?: string;
+}) => {
+  const params = new URLSearchParams();
+  params.set("page", String(page));
+  params.set("limit", String(limit));
 
-export const getProducts = ({
-  page = 1,
-  limit = 15,
-  categoryId,
-}: GetProductsParams) => {
-  const query = new URLSearchParams({
-    page: page.toString(),
-    limit: limit.toString(),
-  });
+  if (keyword?.trim()) params.set("keyword", keyword.trim());
+  if (categoryId) params.set("category[in]", categoryId);
 
-  if (categoryId) {
-    query.append("category", categoryId);
-  }
-
-  return apiFetch<ProductsResponse>(`/products?${query.toString()}`);
+  return apiFetch<ProductsResponse>(`/products?${params.toString()}`);
 };
 
 export const getProductById = (id: string) =>

@@ -7,5 +7,5 @@ export default function CategoryProducts({
 }: {
   categoryId: string;
 }) {
-  return <Products categoryId={categoryId} />;
+  return <Products key={categoryId} categoryId={categoryId} />;
 }

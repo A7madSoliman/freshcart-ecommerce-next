@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <ResponsiveNav />
-          <main role="main" className="flex-1 ">
+          <main role="main" className="flex-1">
             {children}
             <Toaster position="top-right" richColors />
           </main>
