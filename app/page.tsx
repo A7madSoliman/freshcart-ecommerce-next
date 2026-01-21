@@ -1,6 +1,5 @@
-// app/page.tsx
 import Hero from "@/components/Hero/Hero";
-import Products from "@/components/Product/Products";
+import Products from "@/components/Products/Products";
 
 export default function Home() {
   return (

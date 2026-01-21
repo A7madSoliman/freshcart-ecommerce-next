@@ -20,3 +20,11 @@ export function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
+
+/**
+ * ✅ IMPORTANT
+ * حدد الصفحات اللي الميدل وير يشتغل عليها
+ */
+export const config = {
+  matcher: ["/checkout/:path*", "/orders/:path*", "/login"],
+};
