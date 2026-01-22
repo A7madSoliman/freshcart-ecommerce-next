@@ -9,21 +9,27 @@ function CategoryCard({
   category,
   active,
   onClick,
+  aosDelay = 0,
 }: {
   category: ApiCategory;
   active: boolean;
   onClick: () => void;
+  aosDelay?: number;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      data-aos="fade-up"
+      data-aos-duration="650"
+      data-aos-delay={aosDelay}
+      data-aos-once="true"
       className={[
         "group w-full text-left rounded-2xl border bg-white overflow-hidden transition hover:shadow-md",
         active ? "border-blue-600" : "border-gray-100",
       ].join(" ")}
     >
-      <div className="aspect-4/3 bg-gray-50 overflow-hidden">
+      <div className="aspect-[4/3] bg-gray-50 overflow-hidden">
         <img
           src={category.image}
           alt={category.name}
@@ -31,6 +37,7 @@ function CategoryCard({
           loading="lazy"
         />
       </div>
+
       <div className="p-4">
         <h3 className="text-sm font-semibold text-gray-900 line-clamp-1">
           {category.name}
@@ -66,14 +73,20 @@ export default function CategoriesPage() {
     <section className="max-w-6xl mx-auto py-8">
       {/* Header + Search */}
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div>
+        <div data-aos="fade-up" data-aos-duration="700" data-aos-once="true">
           <h1 className="text-2xl font-bold text-gray-900">Categories</h1>
           <p className="text-sm text-gray-500">
             Pick a category to view products
           </p>
         </div>
 
-        <div className="w-full md:w-[380px]">
+        <div
+          className="w-full md:w-95"
+          data-aos="fade-left"
+          data-aos-duration="700"
+          data-aos-delay="150"
+          data-aos-once="true"
+        >
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -88,12 +101,13 @@ export default function CategoriesPage() {
 
       {/* Categories Grid */}
       <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {filtered.map((cat) => (
+        {filtered.map((cat, idx) => (
           <CategoryCard
             key={cat._id}
             category={cat}
             active={categoryId === cat._id}
             onClick={() => setCategoryId(cat._id)}
+            aosDelay={Math.min(idx * 60, 360)}
           />
         ))}
       </div>
@@ -102,7 +116,12 @@ export default function CategoriesPage() {
       {categoryId ? (
         <div className="mt-10">
           {category && (
-            <div className="mb-5 flex items-center gap-3">
+            <div
+              className="mb-5 flex items-center gap-3"
+              data-aos="fade-up"
+              data-aos-duration="650"
+              data-aos-once="true"
+            >
               <img
                 src={category.image}
                 alt={category.name}
@@ -119,10 +138,23 @@ export default function CategoriesPage() {
             </div>
           )}
 
-          <CategoryProducts categoryId={categoryId} />
+          <div
+            data-aos="fade-up"
+            data-aos-duration="700"
+            data-aos-delay="150"
+            data-aos-once="true"
+          >
+            <CategoryProducts categoryId={categoryId} />
+          </div>
         </div>
       ) : (
-        <p className="mt-8 text-sm text-gray-500">
+        <p
+          className="mt-8 text-sm text-gray-500"
+          data-aos="fade-up"
+          data-aos-duration="650"
+          data-aos-delay="150"
+          data-aos-once="true"
+        >
           Select a category to see products.
         </p>
       )}

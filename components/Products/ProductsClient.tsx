@@ -24,7 +24,7 @@ export default function ProductsClient({
   }, [products, query]);
 
   return (
-    <section className="max-w-6xl mx-auto py-8 px-4">
+    <section className="max-w-6xl mx-auto mt-4 py-8 px-4">
       {/* Search */}
       <div className="flex flex-col items-center mb-10">
         <input
@@ -41,8 +41,16 @@ export default function ProductsClient({
 
       {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {filtered.map((p) => (
-          <ProductCard key={p.id} product={p} />
+        {filtered.map((p, idx) => (
+          <div
+            key={p.id}
+            data-aos="fade-up"
+            data-aos-duration="650"
+            data-aos-delay={Math.min(idx * 60, 360)} // max delay 360ms
+            data-aos-once="true"
+          >
+            <ProductCard product={p} />
+          </div>
         ))}
       </div>
     </section>

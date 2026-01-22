@@ -5,6 +5,7 @@ import ResponsiveNav from "@/components/Navbar/ResponsiveNav";
 import Footer from "@/components/Footer/Footer";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/lib/auth/AuthContext";
+import AOSProvider from "@/components/AOSProvider/AOSProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
         <AuthProvider>
           <ResponsiveNav />
           <main role="main" className="flex-1">
+            <AOSProvider />
             {children}
             <Toaster position="top-right" richColors />
           </main>

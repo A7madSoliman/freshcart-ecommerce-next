@@ -95,8 +95,16 @@ export default function Products({ categoryId, keyword }: ProductsProps) {
   return (
     <div className="w-full">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-        {products.map((p) => (
-          <ProductCard key={p.id} product={p} />
+        {products.map((p, idx) => (
+          <div
+            key={p.id}
+            data-aos="fade-up"
+            data-aos-duration="650"
+            data-aos-delay={Math.min(idx * 60, 360)} // max delay 360ms
+            data-aos-once="true"
+          >
+            <ProductCard product={p} />
+          </div>
         ))}
       </div>
 
