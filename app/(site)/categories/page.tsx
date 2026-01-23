@@ -29,7 +29,7 @@ function CategoryCard({
         active ? "border-blue-600" : "border-gray-100",
       ].join(" ")}
     >
-      <div className="aspect-[4/3] bg-gray-50 overflow-hidden">
+      <div className="aspect-4/3 bg-gray-50 overflow-hidden">
         <img
           src={category.image}
           alt={category.name}
