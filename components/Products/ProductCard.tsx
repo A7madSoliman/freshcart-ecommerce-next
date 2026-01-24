@@ -4,7 +4,10 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ProductCardData } from "@/types/products";
 import { formatEGP } from "@/lib/helper/formatCurrency";
-import { Heart, Eye, Star } from "lucide-react";
+import { Heart, Eye, Star, Loader2, Check } from "lucide-react";
+import { toast } from "sonner";
+import { useAddToCart } from "@/lib/Hooks/useCart";
+import { useAuth } from "@/lib/auth/AuthContext";
 
 interface Props {
   product: ProductCardData;
@@ -12,6 +15,9 @@ interface Props {
 
 export default function ProductCard({ product }: Props) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { isLoggedIn } = useAuth();
+
+  const addMutation = useAddToCart();
 
   const discount = useMemo(() => {
     if (!product.originalPrice || !product.price) return 0;
@@ -19,6 +25,24 @@ export default function ProductCard({ product }: Props) {
   }, [product.originalPrice, product.price]);
 
   const productId = (product as any)._id ?? product.id;
+
+  const handleAdd = () => {
+    if (!isLoggedIn) {
+      toast.error("Please login first to add items to cart");
+      return;
+    }
+
+    addMutation.mutate(productId, {
+      onSuccess: () => {
+        toast.success("Added to cart");
+      },
+      onError: (err: any) => {
+        toast.error(err?.message || "Failed to add to cart");
+      },
+    });
+  };
+
+  const isAdding = addMutation.isPending;
 
   return (
     <div className="group rounded-2xl bg-white border border-gray-100 overflow-hidden transition hover:shadow-md">
@@ -108,10 +132,25 @@ export default function ProductCard({ product }: Props) {
 
           <button
             type="button"
-            onClick={() => console.log("Add to cart:", productId)}
-            className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-800 transition hover:bg-gray-50 active:scale-[0.98]"
+            onClick={handleAdd}
+            disabled={isAdding}
+            className={[
+              "rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-800 transition",
+              "hover:bg-gray-50 active:scale-[0.98]",
+              "disabled:opacity-60 disabled:cursor-not-allowed",
+            ].join(" ")}
           >
-            Add
+            {isAdding ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Adding
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2">
+                <Check className="h-4 w-4" />
+                Add
+              </span>
+            )}
           </button>
         </div>
       </div>

@@ -40,7 +40,7 @@ export default function RootLayout({
             <main role="main" className="flex-1">
               <AOSProvider />
               {children}
-              <Toaster position="top-right" richColors />
+              <Toaster position="top-left" richColors />
             </main>
             <ScrollToTop />
             <Footer />

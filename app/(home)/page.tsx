@@ -7,7 +7,7 @@ export default function Home() {
       <Hero />
       <section className="max-w-6xl mx-auto px-4 py-16">
         <div
-          className="text-center"
+          className="text-center aos-init aos-animate"
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-once="true"

@@ -2,7 +2,8 @@
 
 import { useAuth } from "@/lib/auth/AuthContext";
 import { navlinks } from "@/lib/constant";
-import { LogOut, Menu, ShoppingCart } from "lucide-react";
+import { useCartQuery } from "@/lib/Hooks/useCart";
+import { Loader2, LogOut, Menu, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,11 +17,11 @@ export default function Nav({ openNav }: Props) {
   const { isLoggedIn, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
 
+  const { data: cartData, isLoading: cartLoading } = useCartQuery();
+
   useEffect(() => {
     if (pathname === "/") {
-      const handleScroll = () => {
-        setScrolled(window.scrollY >= 90);
-      };
+      const handleScroll = () => setScrolled(window.scrollY >= 90);
       window.addEventListener("scroll", handleScroll);
       handleScroll();
       return () => window.removeEventListener("scroll", handleScroll);
@@ -35,6 +36,9 @@ export default function Nav({ openNav }: Props) {
         ? "bg-blue-950 shadow-md"
         : "bg-transparent"
       : "bg-blue-950 shadow-md";
+
+  // ✅ badge number
+  const cartCount = isLoggedIn ? (cartData?.numOfCartItems ?? 0) : 0;
 
   return (
     <div
@@ -62,11 +66,7 @@ export default function Nav({ openNav }: Props) {
                     after:block after:content-[''] after:absolute after:h-0.5
                     after:bg-yellow-300 after:w-full after:scale-x-0
                     hover:after:scale-x-100 after:transition after:duration-300 after:origin-center
-                    ${
-                      isActive
-                        ? "text-yellow-300 after:scale-x-100"
-                        : "text-white"
-                    }
+                    ${isActive ? "text-yellow-300 after:scale-x-100" : "text-white"}
                   `}
                 >
                   {link.label}
@@ -80,8 +80,14 @@ export default function Nav({ openNav }: Props) {
         <div className="flex items-center space-x-5">
           <Link className="relative" href="/cart">
             <ShoppingCart className="w-7 h-7 text-white cursor-pointer" />
+
+            {/* ✅ Badge */}
             <span className="absolute -top-3 -right-3 bg-rose-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center">
-              0
+              {isLoggedIn && cartLoading ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                cartCount
+              )}
             </span>
           </Link>
 
@@ -96,6 +102,7 @@ export default function Nav({ openNav }: Props) {
             <button
               onClick={logout}
               className="md:px-8 md:py-2.5 px-6 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition cursor-pointer"
+              aria-label="Logout"
             >
               <LogOut />
             </button>

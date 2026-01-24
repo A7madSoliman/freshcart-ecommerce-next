@@ -24,7 +24,7 @@ export const addToCart = (productId: string) =>
   });
 
 export const updateCartQty = (productId: string, count: number) =>
-  apiFetch<CartResponse>("/cart", {
+  apiFetch<CartResponse>(`/cart/${productId}`, {
     method: "PUT",
     headers: authHeaders(),
     body: JSON.stringify({ count }),
