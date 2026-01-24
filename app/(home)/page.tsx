@@ -5,9 +5,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Hero />
-
       <section className="max-w-6xl mx-auto px-4 py-16">
-        {/* Title */}
         <div
           className="text-center"
           data-aos="fade-up"
@@ -21,8 +19,6 @@ export default function Home() {
             Browse our latest picks in fashion and tech.
           </p>
         </div>
-
-        {/* Products grid wrapper */}
         <Products />
       </section>
     </main>

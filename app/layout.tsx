@@ -6,6 +6,7 @@ import Footer from "@/components/Footer/Footer";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/lib/auth/AuthContext";
 import AOSProvider from "@/components/AOSProvider/AOSProvider";
+import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
             {children}
             <Toaster position="top-right" richColors />
           </main>
+          <ScrollToTop />
           <Footer />
         </AuthProvider>
       </body>
