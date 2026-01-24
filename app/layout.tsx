@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/lib/auth/AuthContext";
 import AOSProvider from "@/components/AOSProvider/AOSProvider";
 import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
+import ReactQueryProvider from "@/components/ReactQueryProvider/ReactQueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,20 +31,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
-      >
-        <AuthProvider>
-          <ResponsiveNav />
-          <main role="main" className="flex-1">
-            <AOSProvider />
-            {children}
-            <Toaster position="top-right" richColors />
-          </main>
-          <ScrollToTop />
-          <Footer />
-        </AuthProvider>
-      </body>
+      <AuthProvider>
+        <ReactQueryProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+          >
+            <ResponsiveNav />
+            <main role="main" className="flex-1">
+              <AOSProvider />
+              {children}
+              <Toaster position="top-right" richColors />
+            </main>
+            <ScrollToTop />
+            <Footer />
+          </body>
+        </ReactQueryProvider>
+      </AuthProvider>
     </html>
   );
 }

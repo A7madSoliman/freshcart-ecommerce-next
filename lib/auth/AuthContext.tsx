@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     removeToken();
     setIsLoggedIn(false);
-    // router.push("/login");
+    router.push("/login");
   };
 
   return (
