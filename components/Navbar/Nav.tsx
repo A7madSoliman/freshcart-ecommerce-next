@@ -3,10 +3,11 @@
 import { useAuth } from "@/lib/auth/AuthContext";
 import { navlinks } from "@/lib/constant";
 import { useCartQuery } from "@/lib/Hooks/useCart";
-import { Loader2, LogOut, Menu, ShoppingCart } from "lucide-react";
+import { useWishlistQuery } from "@/lib/Hooks/useWishlist";
+import { Heart, Loader2, LogOut, Menu, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Props = {
   openNav: () => void;
@@ -18,6 +19,7 @@ export default function Nav({ openNav }: Props) {
   const [scrolled, setScrolled] = useState(false);
 
   const { data: cartData, isLoading: cartLoading } = useCartQuery();
+  const { data: wishlistData, isLoading: wishlistLoading } = useWishlistQuery();
 
   useEffect(() => {
     if (pathname === "/") {
@@ -37,8 +39,16 @@ export default function Nav({ openNav }: Props) {
         : "bg-transparent"
       : "bg-blue-950 shadow-md";
 
-  // ✅ badge number
+  // badge number
   const cartCount = isLoggedIn ? (cartData?.numOfCartItems ?? 0) : 0;
+
+  // wishlist count
+  const wishlistCount = useMemo(() => {
+    if (!isLoggedIn) return 0;
+    return wishlistData?.count ?? wishlistData?.data?.length ?? 0;
+  }, [isLoggedIn, wishlistData]);
+
+  const wishlistActive = wishlistCount > 0;
 
   return (
     <div
@@ -50,7 +60,7 @@ export default function Nav({ openNav }: Props) {
           <div className="w-10 h-10 bg-rose-500 rounded-full flex items-center justify-center flex-col">
             <ShoppingCart className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-xl md:text-2xl text-white uppercase font-bold">
+          <h1 className=" hidden lg:flex text-xl md:text-2xl text-white uppercase font-bold">
             FreshCart
           </h1>
         </Link>
@@ -78,10 +88,36 @@ export default function Nav({ openNav }: Props) {
 
         {/* Right Side */}
         <div className="flex items-center space-x-5">
-          <Link className="relative" href="/cart">
-            <ShoppingCart className="w-7 h-7 text-white cursor-pointer" />
+          {/* ✅ Wishlist */}
+          <Link className="relative" href="/wishlist" aria-label="Wishlist">
+            <Heart
+              className={[
+                "w-7 h-7 cursor-pointer transition",
+                wishlistActive ? "text-red-500 fill-red-500" : "text-white/90",
+                wishlistActive ? "animate-pulse" : "",
+              ].join(" ")}
+            />
 
-            {/* ✅ Badge */}
+            {/* Badge */}
+            <span
+              className={[
+                "absolute -top-3 -right-3 w-5 h-5 rounded-full text-xs flex items-center justify-center",
+                wishlistActive
+                  ? "bg-red-500 text-white"
+                  : "bg-white/20 text-white",
+              ].join(" ")}
+            >
+              {isLoggedIn && wishlistLoading ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                wishlistCount
+              )}
+            </span>
+          </Link>
+
+          {/* ✅ Cart */}
+          <Link className="relative" href="/cart" aria-label="Cart">
+            <ShoppingCart className="w-7 h-7 text-white cursor-pointer" />
             <span className="absolute -top-3 -right-3 bg-rose-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center">
               {isLoggedIn && cartLoading ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />

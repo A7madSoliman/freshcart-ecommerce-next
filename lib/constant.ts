@@ -19,9 +19,4 @@ export const navlinks = [
     url: "/brands",
     label: "Brands",
   },
-  {
-    id: 5,
-    url: "/wishlist",
-    label: "Wishlist",
-  },
 ];

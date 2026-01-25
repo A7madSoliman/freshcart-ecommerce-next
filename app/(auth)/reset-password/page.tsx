@@ -1,7 +1,7 @@
 "use client";
 
 import { resetPasswordApi } from "@/lib/api/auth.api";
-import { setToken } from "@/lib/auth/token";
+import { removeToken } from "@/lib/auth/token";
 import { ResetFormData, resetPasswordSchema } from "@/lib/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
@@ -29,16 +29,17 @@ export default function ResetPassword() {
 
   const onsubmit = async (data: ResetFormData) => {
     try {
-      const res = await resetPasswordApi(data);
-      setToken(res.token);
-      toast.success("New password setted successfully");
-      router.push("/");
+      await resetPasswordApi(data);
+
+      removeToken();
+
+      toast.success("Password updated. Please login with your new password.");
+
+      router.replace(`/login?email=${encodeURIComponent(data.email)}`);
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("Something went wrong ");
-      }
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
     }
   };
 
@@ -48,6 +49,7 @@ export default function ResetPassword() {
         <h2 className="text-xl sm:text-2xl font-bold text-blue-950 mb-6 text-center">
           RESET PASSWORD
         </h2>
+
         <form onSubmit={handleSubmit(onsubmit)} noValidate>
           {/* Email */}
           <div className="mt-4">
@@ -66,13 +68,17 @@ export default function ResetPassword() {
               />
             </div>
             <div
-              className={`overflow-hidden transition-all duration-300 ${touchedFields.email && errors.email ? "max-h-20 opacity-100 mt-1" : "max-h-0 opacity-0"}`}
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.email && errors.email
+                  ? "max-h-20 opacity-100 mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
             >
               <p className="text-red-500 text-sm">{errors.email?.message}</p>
             </div>
           </div>
 
-          {/*New Password */}
+          {/* New Password */}
           <div className="mt-4">
             <div className="relative">
               <Lock
@@ -82,7 +88,7 @@ export default function ResetPassword() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="New Password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 aria-invalid={!!errors.newPassword}
                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-950 outline-none"
                 {...register("newPassword")}
@@ -96,7 +102,11 @@ export default function ResetPassword() {
               </button>
             </div>
             <div
-              className={`overflow-hidden transition-all duration-300 ${touchedFields.newPassword && errors.newPassword ? "max-h-20 opacity-100 mt-1" : "max-h-0 opacity-0"}`}
+              className={`overflow-hidden transition-all duration-300 ${
+                touchedFields.newPassword && errors.newPassword
+                  ? "max-h-20 opacity-100 mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
             >
               <p className="text-red-500 text-sm">
                 {errors.newPassword?.message}
@@ -104,7 +114,6 @@ export default function ResetPassword() {
             </div>
           </div>
 
-          {/* Submit */}
           <button
             disabled={isSubmitting}
             className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-950 text-white py-3 rounded-lg transition hover:bg-blue-900 disabled:opacity-60 cursor-pointer"

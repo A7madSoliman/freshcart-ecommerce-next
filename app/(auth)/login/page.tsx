@@ -6,16 +6,18 @@ import { SigninFormData, signinSchema } from "@/lib/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function Login() {
   const { login } = useAuth();
   const router = useRouter();
+  const sp = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { touchedFields, errors, isSubmitting },
@@ -27,6 +29,11 @@ export default function Login() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    const email = sp.get("email");
+    if (email) setValue("email", email);
+  }, [sp, setValue]);
 
   const onSubmit = async (data: SigninFormData) => {
     try {
@@ -42,10 +49,6 @@ export default function Login() {
       }
     }
   };
-
-  // const searchParams = useSearchParams();
-  // const redirectTo = searchParams.get("redirect") || "/";
-  // router.push(redirectTo);
 
   return (
     <section className="min-h-screen flex items-center justify-center px-4">

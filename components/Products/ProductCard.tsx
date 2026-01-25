@@ -4,17 +4,18 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ProductCardData } from "@/types/products";
 import { formatEGP } from "@/lib/helper/formatCurrency";
-import { Heart, Eye, Star, Loader2, Check, ShoppingCart } from "lucide-react";
+import { Eye, Star, Loader2, Check, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { useAddToCart } from "@/lib/Hooks/useCart";
 import { useAuth } from "@/lib/auth/AuthContext";
+import WishlistToggleButton from "@/components/Wishlist/WishlistToggleButton";
 
 interface Props {
   product: ProductCardData;
 }
 
 export default function ProductCard({ product }: Props) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
   const { isLoggedIn } = useAuth();
 
   const addMutation = useAddToCart();
@@ -24,7 +25,9 @@ export default function ProductCard({ product }: Props) {
     return Math.round(100 - (product.price / product.originalPrice) * 100);
   }, [product.originalPrice, product.price]);
 
-  const productId = (product as any)._id ?? product.id;
+  const productId = product.id;
+
+  const isAdding = addMutation.isPending && addMutation.variables === productId;
 
   const handleAdd = () => {
     if (!isLoggedIn) {
@@ -32,17 +35,19 @@ export default function ProductCard({ product }: Props) {
       return;
     }
 
+    setJustAdded(false);
+
     addMutation.mutate(productId, {
       onSuccess: () => {
         toast.success("Added to cart");
+        setJustAdded(true);
+        window.setTimeout(() => setJustAdded(false), 1500);
       },
       onError: (err: any) => {
         toast.error(err?.message || "Failed to add to cart");
       },
     });
   };
-
-  const isAdding = addMutation.isPending;
 
   return (
     <div className="group rounded-2xl bg-white border border-gray-100 overflow-hidden transition hover:shadow-md">
@@ -67,22 +72,10 @@ export default function ProductCard({ product }: Props) {
           </span>
         )}
 
-        {/* Hover actions */}
-        <div className="absolute right-3 top-3 flex flex-col gap-2 opacity-0 translate-y-1 transition group-hover:opacity-100 group-hover:translate-y-0">
+        {/* Hover actions (Desktop فقط) */}
+        <div className="hidden sm:flex absolute right-3 top-3 flex-col gap-2 opacity-0 translate-y-1 transition group-hover:opacity-100 group-hover:translate-y-0">
           {/* Wishlist */}
-          <button
-            type="button"
-            onClick={() => setIsWishlisted((v) => !v)}
-            className="h-10 w-10 rounded-full bg-white/90 backdrop-blur border border-gray-200 shadow-sm flex items-center justify-center transition hover:bg-white"
-            aria-label="Add to wishlist"
-          >
-            <Heart
-              size={18}
-              className={
-                isWishlisted ? "fill-red-500 text-red-500" : "text-gray-700"
-              }
-            />
-          </button>
+          <WishlistToggleButton productId={productId} />
 
           {/* View */}
           <Link
@@ -111,47 +104,60 @@ export default function ProductCard({ product }: Props) {
 
         {/* Title */}
         <Link href={`/product-details/${productId}`} className="block mt-2">
-          <h3 className="text-sm font-semibold text-gray-900 leading-5 line-clamp-2 hover:underline">
+          <h3 className="text-sm font-semibold text-gray-900 leading-5 line-clamp-1 hover:underline">
             {product.title}
           </h3>
         </Link>
 
-        {/* Price + Add */}
-        <div className="mt-3 flex items-end justify-between gap-3">
-          <div className="flex items-baseline gap-2">
-            <span className="text-base font-bold text-gray-900">
-              {formatEGP(product.price || 0)}
+        {/* Price */}
+        <div className="mt-3 flex items-baseline gap-2">
+          <span className="text-base font-bold text-gray-900">
+            {formatEGP(product.price || 0)}
+          </span>
+
+          {product.originalPrice && (
+            <span className="text-xs text-gray-400 line-through">
+              {formatEGP(product.originalPrice)}
             </span>
+          )}
+        </div>
 
-            {product.originalPrice && (
-              <span className="text-xs text-gray-400 line-through">
-                {formatEGP(product.originalPrice)}
-              </span>
-            )}
-          </div>
-
+        {/* Actions */}
+        <div className="mt-4 flex items-center gap-3">
+          {/* Add to cart */}
           <button
             type="button"
             onClick={handleAdd}
             disabled={isAdding}
             className={[
-              "rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-800 transition",
+              "flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-800 transition",
               "hover:bg-gray-50 active:scale-[0.98]",
               "disabled:opacity-60 disabled:cursor-not-allowed",
+              justAdded ? "border-green-200 bg-green-50 text-green-700" : "",
             ].join(" ")}
           >
             {isAdding ? (
-              <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center justify-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Adding
+                Adding...
+              </span>
+            ) : justAdded ? (
+              <span className="inline-flex items-center justify-center gap-2">
+                <Check className="h-4 w-4" />
+                Added
               </span>
             ) : (
-              <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center justify-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
                 Add
               </span>
             )}
           </button>
+
+          {/* Wishlist (Mobail) */}
+          <div className="sm:hidden">
+            <WishlistToggleButton productId={productId} />
+          </div>
         </div>
       </div>
     </div>

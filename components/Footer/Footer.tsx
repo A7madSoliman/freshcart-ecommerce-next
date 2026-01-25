@@ -3,102 +3,130 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="pt-16 pb-16 bg-gray-100">
-      <div className="w-[80%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
-        {/* 1st part */}
-        <div className="space-y-5">
-          <h2 className="text-lg font-bold">Company</h2>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            About Us
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Careers
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Blogs
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Gift Cards
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Magazine
-          </p>
-        </div>
-
-        {/* 2nd part */}
-        <div className="space-y-5">
-          <h2 className="text-lg font-bold">Support</h2>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Contact
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Legal Notice
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Privacy
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Terms & Conditions
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Sitemap
-          </p>
-        </div>
-
-        {/* 3rd part */}
-        <div className="space-y-5">
-          <h2 className="text-lg font-bold">Other Services</h2>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Delivery
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Returns
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Affiliate Program
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            Partnerships
-          </p>
-          <p className="text-gray-800 font-medium cursor-pointer text-sm hover:text-blue-950">
-            FAQs
-          </p>
-        </div>
-
-        {/* 4th part */}
-        <div className="space-y-5">
-          <h2 className="text-lg font-bold">Contact Us</h2>
-          <div className="mt-6">
-            <p className="text-sm text-gray-600">Our Mobile Number</p>
-            <p className="text-base font-bold text-blue-950 mt-1">
-              +201014215587
-            </p>
+    <footer className="bg-gray-100 pt-14 pb-10">
+      <div className="mx-auto w-full max-w-6xl px-4">
+        {/* top grid */}
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-4">
+          {/* 1st part */}
+          <div className="space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Company</h2>
+            <ul className="space-y-2">
+              {["About Us", "Careers", "Blogs", "Gift Cards", "Magazine"].map(
+                (t) => (
+                  <li key={t}>
+                    <Link
+                      href="#"
+                      className="text-sm font-medium text-gray-700 hover:text-blue-950 transition"
+                    >
+                      {t}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
           </div>
-          <div className="mt-6">
-            <p className="text-sm text-gray-600">Our Email</p>
-            <p className="text-base font-bold text-blue-950 mt-1">
-              ahmadsoliman283@gmail.com
-            </p>
+
+          {/* 2nd part */}
+          <div className="space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Support</h2>
+            <ul className="space-y-2">
+              {[
+                "Contact",
+                "Legal Notice",
+                "Privacy",
+                "Terms & Conditions",
+                "Sitemap",
+              ].map((t) => (
+                <li key={t}>
+                  <Link
+                    href="#"
+                    className="text-sm font-medium text-gray-700 hover:text-blue-950 transition"
+                  >
+                    {t}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 3rd part */}
+          <div className="space-y-4">
+            <h2 className="text-base font-bold text-gray-900">
+              Other Services
+            </h2>
+            <ul className="space-y-2">
+              {[
+                "Delivery",
+                "Returns",
+                "Affiliate Program",
+                "Partnerships",
+                "FAQs",
+              ].map((t) => (
+                <li key={t}>
+                  <Link
+                    href="#"
+                    className="text-sm font-medium text-gray-700 hover:text-blue-950 transition"
+                  >
+                    {t}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 4th part */}
+          <div className="space-y-4">
+            <h2 className="text-base font-bold text-gray-900">Contact Us</h2>
+
+            <div className="rounded-2xl border border-gray-200 bg-white p-4">
+              <p className="text-xs text-gray-500">Our Mobile Number</p>
+              <p className="mt-1 text-sm font-bold text-blue-950">
+                +201014215587
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-gray-200 bg-white p-4">
+              <p className="text-xs text-gray-500">Our Email</p>
+              <p className="mt-1 text-sm font-bold text-blue-950 break-all">
+                ahmadsoliman283@gmail.com
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* bottom section */}
-      <div className="mt-8 w-[80%] mx-auto border-t pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
-        <p className="text-center md:text-left">
-          Copyright © 2024 Webdev. All rights reserved
-        </p>
-        <div className="flex items-center space-x-4 mt-4 md:mt-0">
-          <span>Social :</span>
-          <Link href="#" className="text-gray-500 hover:text-blue-800">
-            <Facebook />
-          </Link>
-          <Link href="#" className="text-gray-500 hover:text-gray-800">
-            <Twitch />
-          </Link>
-          <Link href="#" className="text-gray-500 hover:text-rose-800">
-            <Instagram />
-          </Link>
+        {/* bottom section */}
+        <div className="mt-10 border-t border-gray-200 pt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-center sm:text-left text-sm text-gray-600">
+            Copyright © 2026 FreshCart. All rights reserved
+          </p>
+
+          <div className="flex items-center justify-center sm:justify-end gap-3 text-gray-600">
+            <span className="text-sm">Social:</span>
+
+            <Link
+              href="#"
+              aria-label="Facebook"
+              className="h-10 w-10 rounded-xl border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition"
+            >
+              <Facebook className="h-5 w-5" />
+            </Link>
+
+            <Link
+              href="#"
+              aria-label="Twitch"
+              className="h-10 w-10 rounded-xl border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition"
+            >
+              <Twitch className="h-5 w-5" />
+            </Link>
+
+            <Link
+              href="#"
+              aria-label="Instagram"
+              className="h-10 w-10 rounded-xl border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition"
+            >
+              <Instagram className="h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

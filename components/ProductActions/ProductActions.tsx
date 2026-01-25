@@ -33,14 +33,6 @@ export default function ProductActions({ productId }: { productId: string }) {
         {adding ? <Loader2 className="h-5 w-5 animate-spin" /> : null}
         {adding ? "Adding..." : "Add to cart"}
       </button>
-
-      <button
-        type="button"
-        className="w-12 h-12 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 transition"
-        aria-label="Add to wishlist"
-      >
-        <Heart />
-      </button>
     </div>
   );
 }
