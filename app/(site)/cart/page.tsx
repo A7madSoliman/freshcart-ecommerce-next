@@ -16,9 +16,9 @@ import Link from "next/link";
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
 
+  const { removeItem, removingId } = useRemoveItem();
   const cartQuery = useCartQuery();
   const updateQty = useUpdateQty();
-  const removeItem = useRemoveItem();
   const clear = useClearCart();
 
   if (!isLoggedIn) {
@@ -56,7 +56,7 @@ export default function CartPage() {
           <h1 className="text-2xl font-bold text-gray-900">Cart unavailable</h1>
           <p className="mt-2 text-sm text-gray-500">Please try again later.</p>
           <Link
-            href="/products"
+            href="/"
             className="mt-5 inline-flex rounded-2xl bg-blue-600 px-6 py-3 text-white font-semibold hover:bg-blue-700 transition"
           >
             Browse Products
@@ -125,6 +125,7 @@ export default function CartPage() {
                 key={rowKey}
                 item={item}
                 busy={busy}
+                removing={removingId === productId}
                 onInc={() => {
                   if (!canEdit) return;
                   updateQty.mutate({ productId, count: item.count + 1 });

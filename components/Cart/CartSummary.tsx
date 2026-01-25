@@ -47,13 +47,18 @@ export default function CartSummary({
           type="button"
           onClick={onClear}
           disabled={clearing}
-          className="rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 disabled:opacity-60"
+          className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 disabled:opacity-60"
         >
-          {clearing ? (
-            <Loader2 className="animate-spin w-5 h-5" />
-          ) : (
-            "Clear Cart"
-          )}
+          <span className="inline-flex w-full items-center justify-center gap-2">
+            {clearing ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Clearing...
+              </>
+            ) : (
+              "Clear Cart"
+            )}
+          </span>
         </button>
       </div>
     </aside>

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ProductCardData } from "@/types/products";
 import { formatEGP } from "@/lib/helper/formatCurrency";
-import { Heart, Eye, Star, Loader2, Check } from "lucide-react";
+import { Heart, Eye, Star, Loader2, Check, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { useAddToCart } from "@/lib/Hooks/useCart";
 import { useAuth } from "@/lib/auth/AuthContext";
@@ -147,7 +147,7 @@ export default function ProductCard({ product }: Props) {
               </span>
             ) : (
               <span className="inline-flex items-center gap-2">
-                <Check className="h-4 w-4" />
+                <ShoppingCart className="h-4 w-4" />
                 Add
               </span>
             )}

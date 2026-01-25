@@ -1,7 +1,5 @@
-"use client";
-
 import type { ApiCartItem, ApiCartProduct } from "@/types/cart";
-import { Minus, Plus, Trash2, ImageOff } from "lucide-react";
+import { Minus, Plus, Trash2, ImageOff, Loader2 } from "lucide-react";
 
 function isProductObject(p: ApiCartItem["product"]): p is ApiCartProduct {
   return typeof p === "object" && p !== null;
@@ -13,12 +11,14 @@ export default function CartItemRow({
   onDec,
   onRemove,
   busy,
+  removing,
 }: {
   item: ApiCartItem;
   onInc: () => void;
   onDec: () => void;
   onRemove: () => void;
   busy?: boolean;
+  removing?: boolean;
 }) {
   const p = isProductObject(item.product) ? item.product : null;
 
@@ -80,8 +80,17 @@ export default function CartItemRow({
             disabled={busy}
             className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
           >
-            <Trash2 className="h-4 w-4 text-red-600" />
-            Remove
+            {removing ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Removing...
+              </>
+            ) : (
+              <>
+                <Trash2 className="h-4 w-4 text-red-600" />
+                Remove
+              </>
+            )}
           </button>
         </div>
       </div>

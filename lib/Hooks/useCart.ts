@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addToCart,
@@ -7,6 +9,7 @@ import {
   updateCartQty,
 } from "../api/cart.api";
 import { getToken } from "@/lib/auth/token";
+import { useState } from "react";
 
 const cartKey = ["cart"] as const;
 
@@ -42,12 +45,18 @@ export function useUpdateQty() {
 }
 
 export function useRemoveItem() {
+  const [removingId, setRemovingId] = useState<string | null>(null);
   const qc = useQueryClient();
 
-  return useMutation({
-    mutationFn: (productId: string) => removeCartItem(productId),
+  const mutation = useMutation({
+    mutationFn: (productId: string) => {
+      setRemovingId(productId);
+      return removeCartItem(productId);
+    },
     onSuccess: () => qc.invalidateQueries({ queryKey: cartKey }),
+    onSettled: () => setRemovingId(null),
   });
+  return { removeItem: mutation, removingId };
 }
 
 export function useClearCart() {
