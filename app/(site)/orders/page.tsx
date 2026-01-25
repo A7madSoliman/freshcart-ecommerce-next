@@ -4,17 +4,19 @@ import Link from "next/link";
 import { Loader2, PackageSearch } from "lucide-react";
 import { useUserOrders } from "@/lib/Hooks/useOrdersQuery";
 import type { ApiOrder, OrderCartItem, OrderProduct } from "@/types/orders";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Orders",
+  description: "Track your orders and view purchase history.",
+};
 
 function isProductObject(p: OrderCartItem["product"]): p is OrderProduct {
   return typeof p === "object" && p !== null;
 }
-
 export default function OrdersPage() {
   const { data, isLoading, isError } = useUserOrders();
 
-  // ✅ Handle both shapes:
-  // - data = { data: ApiOrder[] }
-  // - data = ApiOrder[]
   const orders: ApiOrder[] = Array.isArray(data) ? data : (data?.data ?? []);
 
   if (isLoading) {

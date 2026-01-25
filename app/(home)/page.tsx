@@ -1,5 +1,11 @@
 import Hero from "@/components/Hero/Hero";
 import Products from "@/components/Products/Products";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Shop curated fashion and electronics at the best prices.",
+};
 
 export default function Home() {
   return (

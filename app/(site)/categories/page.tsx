@@ -4,6 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { getCategories, getCategoryById } from "@/lib/api/categories.api";
 import { ApiCategory } from "@/types/category";
 import CategoryProducts from "@/components/categories/CategoryProducts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Categories",
+  description: "Explore categories and browse products by type.",
+};
 
 function CategoryCard({
   category,

@@ -1,9 +1,14 @@
 import ProductsClient from "@/components/Products/ProductsClient";
 import { getProducts } from "@/lib/api/products.api";
 import { ApiProduct } from "@/types/products";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Products",
+  description: "Browse all products, search, and discover new arrivals.",
+};
 
 export const dynamic = "force-dynamic";
-
 export default async function ProductsPage() {
   const res = await getProducts({ page: 1, limit: 200 });
   const apiProducts = res.data ?? [];

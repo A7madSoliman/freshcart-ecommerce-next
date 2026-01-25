@@ -11,7 +11,13 @@ import {
   useUpdateQty,
 } from "@/lib/Hooks/useCart";
 import { ShoppingCart } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Cart",
+  description: "Review your cart, update quantities, and proceed to checkout.",
+};
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();

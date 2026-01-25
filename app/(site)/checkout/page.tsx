@@ -14,6 +14,12 @@ import {
   useCreateCheckoutSession,
 } from "@/lib/Hooks/useOrders";
 import type { ShippingAddress } from "@/types/orders";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Checkout",
+  description: "Enter shipping details and choose a payment method.",
+};
 
 export default function CheckoutPage() {
   const router = useRouter();

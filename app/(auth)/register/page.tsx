@@ -14,11 +14,17 @@ import {
   Phone,
   User,
 } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+export const metadata: Metadata = {
+  title: "Register",
+  description: "Register to manage your cart, wishlist, and orders.",
+};
 
 export default function Register() {
   const router = useRouter();

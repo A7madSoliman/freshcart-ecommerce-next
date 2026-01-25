@@ -8,6 +8,12 @@ import {
   useRemoveFromWishlist,
 } from "@/lib/Hooks/useWishlist";
 import WishlistItemCard from "@/components/Wishlist/WishlistItemCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Wishlist",
+  description: "Save your favorite items and shop later.",
+};
 
 export default function WishlistPage() {
   const { isLoggedIn } = useAuth();

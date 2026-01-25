@@ -1,8 +1,14 @@
 import ProductActions from "@/components/ProductActions/ProductActions";
 import ProductGallery from "@/components/ProductGallery/ProductGallery";
 import { getProductById } from "@/lib/api/products.api";
-import { Heart, Star } from "lucide-react";
+import { Star } from "lucide-react";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Product Details",
+  description: "Browse all products, search, and discover new arrivals.",
+};
 
 export default async function ProductDetails({
   params,
@@ -18,7 +24,6 @@ export default async function ProductDetails({
   const product = res.data;
 
   if (!product) return notFound();
-
   return (
     <section className="min-h-screen pt-28 py-8">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">

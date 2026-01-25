@@ -5,11 +5,17 @@ import { useAuth } from "@/lib/auth/AuthContext";
 import { SigninFormData, signinSchema } from "@/lib/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Login to manage your cart, wishlist, and orders.",
+};
 
 export default function Login() {
   const { login } = useAuth();
