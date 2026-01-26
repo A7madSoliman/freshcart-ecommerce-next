@@ -3,7 +3,7 @@
 FreshCart is a modern e-commerce web app built with **Next.js (App Router)**, **TypeScript**, **TailwindCSS**, and **TanStack React Query**.  
 It includes a complete shopping experience: products browsing, categories, brands, cart, checkout, orders, and wishlist — with a clean UI and solid UX patterns.
 
-🌐 Live Demo: https://freshcart-ecommerce-next.vercel.app/  
+🌐 Live Demo: https://freshcart-ecommerce-nextjs.vercel.app/  
 👤 Author: Ahmed Soliman  
 🔗 LinkedIn: https://www.linkedin.com/in/ahmed-soliman-1334b116a/
 

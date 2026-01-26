@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description:
     "Modern e-commerce built with Next.js, React Query, and Tailwind CSS. Browse products, manage cart, checkout, orders, and wishlist.",
   applicationName: "FreshCart",
-  metadataBase: new URL("https://freshcart-ecommerce-next.vercel.app/"),
+  metadataBase: new URL("https://freshcart-ecommerce-nextjs.vercel.app/"),
   keywords: [
     "FreshCart",
     "ecommerce",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "FreshCart — Fashion & Tech Store",
     description:
       "Shop curated fashion and electronics. Cart, checkout, orders, and wishlist experience built with Next.js.",
-    url: "https://freshcart-ecommerce-next.vercel.app/",
+    url: "https://freshcart-ecommerce-nextjs.vercel.app/",
     siteName: "FreshCart",
     type: "website",
   },

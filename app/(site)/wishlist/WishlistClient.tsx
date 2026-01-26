@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Loader2, HeartOff } from "lucide-react";
+import { Loader2, HeartOff, Heart } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthContext";
 import {
   useWishlistQuery,
@@ -19,7 +19,10 @@ export default function WishlistClient() {
     return (
       <section className="max-w-6xl mx-auto py-10 px-4">
         <div className="rounded-2xl border border-gray-100 bg-white p-10 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <div className="mx-auto h-14 w-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center">
+            <Heart className="h-7 w-7 text-gray-800" />
+          </div>
+          <h1 className="mt-4 text-2xl font-bold text-gray-900">
             Please login to view your wishlist
           </h1>
           <p className="mt-2 text-sm text-gray-500">
