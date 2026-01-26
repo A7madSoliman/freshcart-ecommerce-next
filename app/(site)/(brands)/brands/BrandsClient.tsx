@@ -4,12 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { getBrands } from "@/lib/api/brands.api";
 import { ApiBrand } from "@/types/brands";
 import BrandCard from "@/components/Brands/BrandCard";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Brands",
-  description: "Browse brands and discover collections.",
-};
 
 export default function BrandsClient() {
   const [brands, setBrands] = useState<ApiBrand[]>([]);
