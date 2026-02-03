@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const protectedRoutes = ["/checkout", "/orders"];
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const path = req.nextUrl.pathname;
 
